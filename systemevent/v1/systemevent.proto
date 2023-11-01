@@ -1,0 +1,35 @@
+syntax="proto3";
+package systemevent.v1;
+
+option go_package = "github.com/polkafoundry/gamefi-core-pb/go/systemevent";
+
+service Queue {
+  rpc PublishEvent(PublishEventRequest) returns (PublishEventResponse);
+  rpc SubscribeEvent(SubscribeEventRequest) returns (stream SubscribeEventResponse);
+}
+
+message Event {
+  oneof data {
+    JobCompletedEvent job_completed = 1;
+  }
+}
+
+message JobCompletedEvent {
+  int64 timestamp = 1;
+  string client_id = 2;
+  string freelancer_id = 3;
+  string job_id = 4;
+  string job_category = 5;
+}
+
+message PublishEventRequest {
+  Event event = 1;
+}
+
+message PublishEventResponse {}
+
+message SubscribeEventRequest {}
+
+message SubscribeEventResponse {
+  Event event = 1;
+}

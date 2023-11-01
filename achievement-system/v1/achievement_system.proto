@@ -1,0 +1,50 @@
+syntax="proto3";
+package systemevent.v1;
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/polkafoundry/gamefi-core-pb/go/achievement-system";
+
+service AchievementSystem {
+  rpc ListUserAchievements(ListUserAchievementRequest) returns (ListUserAchievementResponse);
+  rpc ClaimAchievement(ClaimAchievementRequest) returns (ClaimAchievementResponse);
+}
+
+message ListUserAchievementRequest {
+  string user_id = 1;
+}
+
+message ListUserAchievementResponse {
+  repeated UserAchievement achievements = 1;
+}
+
+message ClaimAchievementRequest {
+  string user_id = 1;
+  string achievement_id = 2;
+  string tier_id = 3;
+}
+
+message ClaimAchievementResponse {}
+
+message UserAchievement {
+  string user_id = 1;
+  string achievement_id = 2;
+  string category = 3;
+  int64 repeat = 4;
+  repeated UserAchievementTier tiers = 5;
+}
+
+message UserAchievementTier {
+  Tier tier = 1;
+  string name = 2;
+  string requirement_desc = 3;
+  int64 repeated = 4;
+  int64 loyalty_points = 5;
+  google.protobuf.Timestamp achieved_at = 6;
+  google.protobuf.Timestamp claimed_at = 7;
+}
+
+message Tier {
+  string tier_id = 1;
+  string name = 2;
+  int64 sort_index = 3;
+}
